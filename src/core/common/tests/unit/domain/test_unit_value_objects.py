@@ -1,7 +1,104 @@
+from abc import ABC
+from dataclasses import FrozenInstanceError, dataclass, is_dataclass
 import unittest
 from unittest.mock import patch, Mock
-from src.core.common.domain.value_objects import Cpf
-from src.core.common.domain.exceptions import InvalidCpfException
+import uuid
+from src.core.common.domain.value_objects import Cpf, IdUUID, ValueObject
+from src.core.common.domain.exceptions import InvalidCpfException, InvalidUuidException
+
+
+@dataclass(frozen=True)
+class StubOneProp(ValueObject):
+    prop: str
+
+
+@dataclass(frozen=True)
+class StubTwoProp(ValueObject):
+    prop1: str
+    prop2: str
+
+
+class TestValueObjectUnit(unittest.TestCase):
+    def test_if_is_a_dataclass(self):
+        self.assertTrue(is_dataclass(ValueObject))
+
+    def test_if_is_a_abc(self):
+        self.assertIsInstance(ValueObject(), ABC)
+
+    def test_init_prop(self):
+        value_object = StubOneProp(prop='value')
+        self.assertEqual(value_object.prop, 'value')
+
+        value1_object = StubTwoProp(prop1='value1', prop2='value2')
+        self.assertEqual(value1_object.prop1, 'value1')
+        self.assertEqual(value1_object.prop2, 'value2')
+
+    def test_convert_to_string(self):
+        value_object = StubOneProp(prop='value')
+        self.assertEqual(value_object.prop, str(value_object))
+
+        value1_object = StubTwoProp(prop1='value1', prop2='value2')
+        self.assertEqual(
+            '{"prop1": "value1", "prop2": "value2"}', str(value1_object))
+
+    def test_is_immutable(self):
+        with self.assertRaises(FrozenInstanceError):
+            value_object = StubOneProp(prop='value')
+            value_object.prop = 'fake'
+
+
+class TestIdUUIDUnit(unittest.TestCase):
+
+    def test_if_is_a_dataclass(self):
+        self.assertTrue(is_dataclass(IdUUID))
+
+    def test_is_immutable(self):
+        with self.assertRaises(FrozenInstanceError):
+            value_object = IdUUID()
+            value_object.id = 'fake id'
+
+    def test_throw_exception_when_uuid_is_invalid(self):
+        with patch.object(
+            IdUUID,
+            '_IdUUID__validate',
+            autospec=True,
+            side_effect=IdUUID._IdUUID__validate 
+        ) as mock_validate:
+            with self.assertRaises(InvalidUuidException) as assert_error:
+                IdUUID('fake id')
+            mock_validate.assert_called_once()
+            self.assertEqual(mock_validate.call_count, 1)
+            self.assertEqual(
+                assert_error.exception.args[0], 'ID must be a valid UUID')
+            
+    def test_accept_uui_passed_in_init(self):
+        with patch.object(
+            IdUUID,
+            '_IdUUID__validate',
+            autospec=True,
+            side_effect=IdUUID._IdUUID__validate
+        ) as mock_validate:
+            value_object = IdUUID(
+                '8177e159-7ef3-4ee8-ac94-35ef1604905c')
+            mock_validate.assert_called_once()
+            self.assertEqual(
+                value_object.id, '8177e159-7ef3-4ee8-ac94-35ef1604905c')
+
+        uuid_value = uuid.uuid4()
+        value_object = IdUUID(uuid_value)
+        self.assertEqual(value_object.id, str(uuid_value))
+
+    def test_generate_id_when_no_passed_id_in_init(self):
+        with patch.object(
+            IdUUID,
+            '_IdUUID__validate',
+            autospec=True,
+            side_effect=IdUUID._IdUUID__validate
+        ) as mock_validate:
+            value_object = IdUUID()
+            uuid.UUID(value_object.id)
+            mock_validate.assert_called_once()
+
 
 class TestUnitCpf(unittest.TestCase):
     def test_valid_cpf(self):
