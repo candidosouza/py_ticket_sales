@@ -1,11 +1,11 @@
 from dataclasses import dataclass
-from typing import Dict, TypedDict
+from typing import TypedDict
 from src.core.common.domain.aggregate_root import AggregateRoot
 from src.core.common.domain.value_objects import Cpf
 
 
 @dataclass
-class CustomerInput(TypedDict):
+class CustomerCommand(TypedDict):
     cpf: str
     name: str
 
@@ -16,7 +16,7 @@ class Customer(AggregateRoot):
     name: str
 
     @staticmethod
-    def create(command: CustomerInput) -> 'Customer':
+    def create(command: CustomerCommand) -> 'Customer':
         return Customer(
             cpf=Cpf(command['cpf']),
             name=command['name']
