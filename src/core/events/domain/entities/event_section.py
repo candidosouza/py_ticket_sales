@@ -4,15 +4,15 @@ from typing import Optional, TypedDict
 from src.core.common.domain.entities import Entity
 
 
-@dataclass
-class EventSectionCommand(TypedDict):
+@dataclass(frozen=True, slots=True, kw_only=True)
+class EventSectionCommand:
     name: str
     description: str
     total_spot: int
     price: float
 
 
-@dataclass
+@dataclass(frozen=True, slots=True, kw_only=True)
 class EventSection(Entity):
     name: str
     description: Optional[str] = None
@@ -21,14 +21,18 @@ class EventSection(Entity):
     total_spot_reserved: int
     price: float
 
-    def create(self, command: EventSectionCommand) -> 'EventSection':
-        return EventSection(
-            name=command['name'],
-            description=command['description'],
-            total_spot=command['total_spot'],
-            price=command['price'],
-            is_published=False,
-            total_spot_reserved=0
-        )
+    @staticmethod
+    def create(command: EventSectionCommand) -> 'EventSection':
+        try:
+            return EventSection(
+                name=command.name,
+                description=command.description,
+                total_spot=command.total_spot,
+                price=command.price,
+                is_published=False,
+                total_spot_reserved=0
+            )
+        except TypeError as e:
+            raise TypeError(f'Error creating EventSection: {e}') from e
 
 
