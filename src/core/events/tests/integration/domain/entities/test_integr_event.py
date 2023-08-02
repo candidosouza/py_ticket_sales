@@ -2,18 +2,27 @@ import unittest
 
 from src.core.events.domain.entities.event import EventCommand, Event
 from src.core.events.domain.entities.event_section import EventSectionCommand, EventSection
+from src.core.events.domain.entities.event_spot import EventSpot, EventSpotCommand
 
 
 class TestIntegrEvent(unittest.TestCase):
 
     def test_create_event_valid(self):
-        data_command = {
+        data_event_spot_command = {
+            'location': 'location',
+            'is_reserved': False,
+            'is_published': False
+        }
+        event_spot_command = EventSpotCommand(**data_event_spot_command)
+        event_spot = EventSpot.create(event_spot_command)
+        data_event_section_command = {
             'name': 'test',
             'description': 'test',
             'total_spot': 100,
-            'price': 100.0
+            'price': 100.0,
+            'spot': [event_spot]
         }
-        command = EventSectionCommand(**data_command)
+        command = EventSectionCommand(**data_event_section_command)
         event_section = EventSection.create(command)
 
         event_command = {
@@ -35,5 +44,3 @@ class TestIntegrEvent(unittest.TestCase):
         self.assertEqual(event.sections, event_command['sections'])
         self.assertEqual(event.is_published, False)
         self.assertEqual(event.total_spot_reserved, 0)
-        
-
