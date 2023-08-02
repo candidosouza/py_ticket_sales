@@ -4,22 +4,23 @@ from typing import TypedDict
 from src.core.common.domain.entities import Entity
 
 
-@dataclass
-class EventSpotCommand(TypedDict):
+@dataclass(frozen=True, slots=True, kw_only=True)
+class EventSpotCommand:
     location: str
     is_reserved: bool
     is_published: bool
 
 
-@dataclass
+@dataclass(frozen=True, slots=True, kw_only=True)
 class EventSpot(Entity):
     location: str
     is_reserved: bool
     is_published: bool
 
-    def create(self, command: EventSpotCommand) -> 'EventSpot':
+    @staticmethod
+    def create(command: EventSpotCommand) -> 'EventSpot':
         return EventSpot(
-            location=command['location'],
-            is_reserved=command['is_reserved'],
-            is_published=command['is_published']
+            location=command.location,
+            is_reserved=command.is_reserved,
+            is_published=command.is_published
         )
