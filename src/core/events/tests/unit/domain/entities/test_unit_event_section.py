@@ -12,7 +12,8 @@ class TestUnitEventSectionCommand(unittest.TestCase):
             'name': 'Event Name',
             'description': 'Event Description',
             'total_spot': 100,
-            'price': 100.00
+            'price': 100.00,
+            'spot': []
         }
 
         event_section_command = EventSectionCommand(**event_section_command)
@@ -35,7 +36,8 @@ class TestUnitEventSection(unittest.TestCase):
             'name': 'test',
             'description': 'test',
             'total_spot': 100,
-            'price': 100.0
+            'price': 100.0,
+            'spot': []
         }
         stub_command = StubEventSectionCommand(**data_command)
         event_section = EventSection.create(stub_command)
