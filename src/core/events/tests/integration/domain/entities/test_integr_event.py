@@ -44,3 +44,24 @@ class TestIntegrEvent(unittest.TestCase):
         self.assertEqual(event.sections, event_input['sections'])
         self.assertEqual(event.is_published, False)
         self.assertEqual(event.total_spot_reserved, 0)
+
+    def test_create_event_without_sections(self):
+        event_input = {
+            'name': 'Event Name',
+            'description': 'Event Description',
+            'date': '2021-12-12',
+            'total_spot': 100,
+            'partner_id': 'partner_id',
+            'sections': []
+        }
+        input_data = EventInput(**event_input)
+        event = Event.create(input_data)
+        self.assertIsInstance(event, Event)
+        self.assertEqual(event.name, event_input['name'])
+        self.assertEqual(event.description, event_input['description'])
+        self.assertEqual(event.date, event_input['date'])
+        self.assertEqual(event.total_spot, event_input['total_spot'])
+        self.assertEqual(event.partner_id, event_input['partner_id'])
+        self.assertEqual(event.sections, event_input['sections'])
+        self.assertEqual(event.is_published, False)
+        self.assertEqual(event.total_spot_reserved, 0)
