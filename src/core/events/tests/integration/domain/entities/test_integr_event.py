@@ -31,7 +31,7 @@ class TestIntegrEvent(unittest.TestCase):
                 'date': '2021-12-12',
                 'total_spot': 100,
                 'partner_id': 'partner_id',
-                'sections': [event_section]
+                'sections': event_section
             }
         input = EventInput(**event_input)
         event = Event.create(input)

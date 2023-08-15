@@ -5,10 +5,15 @@ from unittest.mock import Mock, patch
 from src.core.events.domain.entities.customer import Customer
 
 
+
+class StubCustomerInput:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+
 class TestUnitCustomer(unittest.TestCase):
 
     def test_create_customer_valid(self):
-        customer_input = {
+        customer_input_data = {
             'cpf': '896.486.520-07',
             'name': 'John Doe'
         }
@@ -17,6 +22,7 @@ class TestUnitCustomer(unittest.TestCase):
         cpf_mock.cpf = '896.486.520-07'
 
         with patch('src.core.common.domain.value_objects.Cpf', return_value=cpf_mock):
+            customer_input = StubCustomerInput(**customer_input_data)
             customer = Customer.create(customer_input)
 
         self.assertEqual(customer.cpf.cpf, '896.486.520-07')
@@ -24,7 +30,7 @@ class TestUnitCustomer(unittest.TestCase):
 
 
     def test_change_customer_name(self):
-        customer_input = {
+        customer_input_data = {
             'cpf': '795.724.670-26',
             'name': 'John Doe'
         }
@@ -33,6 +39,7 @@ class TestUnitCustomer(unittest.TestCase):
         cpf_mock.cpf = '795.724.670-26'
 
         with patch('src.core.common.domain.value_objects.Cpf', return_value=cpf_mock):
+            customer_input = StubCustomerInput(**customer_input_data)
             customer = Customer.create(customer_input)
 
         customer.change_name("Jhon Doe Souza")
@@ -40,7 +47,7 @@ class TestUnitCustomer(unittest.TestCase):
         self.assertEqual(customer.cpf.cpf, "795.724.670-26")
 
     def test_change_customer_name_with_invalid_name(self):
-        customer_input = {
+        customer_input_data = {
             'cpf': '195.841.570-78',
             'name': 'John Doe'
         }
@@ -49,6 +56,7 @@ class TestUnitCustomer(unittest.TestCase):
         cpf_mock.cpf = '195.841.570-78'
 
         with patch('src.core.common.domain.value_objects.Cpf', return_value=cpf_mock):
+            customer_input = StubCustomerInput(**customer_input_data)
             customer = Customer.create(customer_input)
 
         message = "Nome Inválido"
