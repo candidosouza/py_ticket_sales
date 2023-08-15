@@ -13,4 +13,11 @@ class EventSection(Entity):
     total_spot: int
     total_spot_reserved: Optional[int] = 0
     price: float
-    spot: Optional[List[EventSpot]] = field(default_factory=list) 
+    spot: Optional[List[EventSpot]] = field(default_factory=list)
+
+    def __post_init__(self):
+        self._init_spot()
+
+    def _init_spot(self):
+        for _ in range(self.total_spot):
+            self.spot.append(EventSpot()) 

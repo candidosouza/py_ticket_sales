@@ -1,9 +1,10 @@
 from dataclasses import dataclass
+from typing import Optional
 from src.core.common.domain.entities import Entity
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class EventSpot(Entity):
-    location: str
-    is_reserved: bool
-    is_published: bool
+    location: Optional[str] = None
+    is_reserved: Optional[bool] = False
+    is_published: Optional[bool] = False
