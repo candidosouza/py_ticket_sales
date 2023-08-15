@@ -60,3 +60,25 @@ class TestIntegrEvent(unittest.TestCase):
         self.assertEqual(event.sections, data['sections'])
         self.assertEqual(event.is_published, False)
         self.assertEqual(event.total_spot_reserved, 0)
+
+    def test_add_section_and_create_spots(self):
+        data_section = {
+            'name': 'test',
+            'description': 'test',
+            'total_spot': 100,
+            'price': 100.0
+        }
+        event_section = EventSection(**data_section)
+        data = {
+            'name': 'Event Name',
+            'description': 'Event Description',
+            'date': '2021-12-12',
+            'partner_id': 'partner_id',
+        }
+        event = Event(**data)
+        event.add_section(event_section)
+        
+        self.assertEqual(len(event.sections), 1)
+        self.assertEqual(event.total_spot, 100)
+        self.assertEqual(len(event.sections[0].spot), 100)
+        self.assertEqual(len(event_section.spot), 100)
