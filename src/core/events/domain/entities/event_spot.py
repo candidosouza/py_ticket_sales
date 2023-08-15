@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-
 from src.core.common.domain.entities import Entity
 
 

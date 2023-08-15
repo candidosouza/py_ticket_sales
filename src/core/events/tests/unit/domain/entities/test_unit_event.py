@@ -1,6 +1,5 @@
-from dataclasses import asdict
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 from src.core.events.domain.entities.event import Event
 

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Optional, TypedDict
+from typing import List, Optional
 
 from src.core.common.domain.aggregate_root import AggregateRoot
 from src.core.events.domain.entities.event_section import EventSection

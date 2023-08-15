@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import TypedDict
 from src.core.common.domain.aggregate_root import AggregateRoot
 from src.core.common.domain.value_objects import Cpf
 
