@@ -2,12 +2,12 @@ from dataclasses import asdict
 import unittest
 from unittest.mock import Mock, patch
 
-from src.core.events.domain.entities.event import Event, EventCommand
+from src.core.events.domain.entities.event import Event, EventInput
 
 
-class TestUnitEventCommand(unittest.TestCase):
+class TestUnitEventInput(unittest.TestCase):
     
-        def test_create_event_command_valid(self):
+        def test_create_event_input_valid(self):
             event_sections = Mock()
             event_sections.name = 'Event Name'
             event_sections.description = 'Event Description'
@@ -16,7 +16,7 @@ class TestUnitEventCommand(unittest.TestCase):
             event_sections.total_spot_reserved = 0
             event_sections.price = 100.00
     
-            event_command = {
+            event_input = {
                 'name': 'Event Name',
                 'description': 'Event Description',
                 'date': '2021-12-12',
@@ -25,16 +25,16 @@ class TestUnitEventCommand(unittest.TestCase):
                 'sections': [event_sections]
             }
     
-            event_command = EventCommand(**event_command)
+            event_input = EventInput(**event_input)
     
-            self.assertEqual(event_command.name, 'Event Name')
-            self.assertEqual(event_command.description, 'Event Description')
-            self.assertEqual(event_command.date, '2021-12-12')
-            self.assertEqual(event_command.total_spot, 100)
-            self.assertEqual(event_command.partner_id, 'partner_id')
+            self.assertEqual(event_input.name, 'Event Name')
+            self.assertEqual(event_input.description, 'Event Description')
+            self.assertEqual(event_input.date, '2021-12-12')
+            self.assertEqual(event_input.total_spot, 100)
+            self.assertEqual(event_input.partner_id, 'partner_id')
 
 
-class StubEventCommand:
+class StubEventInput:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
@@ -50,7 +50,7 @@ class TestUnitEvent(unittest.TestCase):
         event_sections.total_spot_reserved = 0
         event_sections.price = 100.00
 
-        event_command = {
+        event_input = {
             'name': 'Event Name',
             'description': 'Event Description',
             'date': '2021-12-12',
@@ -58,8 +58,8 @@ class TestUnitEvent(unittest.TestCase):
             'partner_id': 'partner_id',
             'sections': [event_sections]
         }
-        stub_event_command = StubEventCommand(**event_command)
-        event = Event.create(stub_event_command)
+        stub_event_input = StubEventInput(**event_input)
+        event = Event.create(stub_event_input)
 
         self.assertEqual(event.name, 'Event Name')
         self.assertEqual(event.description, 'Event Description')

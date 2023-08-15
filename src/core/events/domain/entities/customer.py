@@ -5,7 +5,7 @@ from src.core.common.domain.value_objects import Cpf
 
 
 @dataclass
-class CustomerCommand(TypedDict):
+class CustomerInput(TypedDict):
     cpf: str
     name: str
 
@@ -16,10 +16,10 @@ class Customer(AggregateRoot):
     name: str
 
     @staticmethod
-    def create(command: CustomerCommand) -> 'Customer':
+    def create(input: CustomerInput) -> 'Customer':
         return Customer(
-            cpf=Cpf(command['cpf']),
-            name=command['name']
+            cpf=Cpf(input['cpf']),
+            name=input['name']
         )
     
     def change_name(self, name: str) -> None:

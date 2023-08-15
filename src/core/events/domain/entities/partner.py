@@ -5,7 +5,7 @@ from src.core.common.domain.aggregate_root import AggregateRoot
 
 
 @dataclass
-class PartnerCommand(TypedDict):
+class PartnerInput(TypedDict):
     name: str
 
 
@@ -14,7 +14,7 @@ class Partner(AggregateRoot):
     name: str
 
     @staticmethod
-    def create(command: PartnerCommand) -> 'Partner':
+    def create(input: PartnerInput) -> 'Partner':
         return Partner(
-            name=command['name']
+            name=input['name']
         )

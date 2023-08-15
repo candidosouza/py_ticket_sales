@@ -6,7 +6,7 @@ from src.core.events.domain.entities.event_section import EventSection
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class EventCommand:
+class EventInput:
     name: str
     description: Optional[str]
     date: str
@@ -27,12 +27,12 @@ class Event(AggregateRoot):
     sections: Optional[List[EventSection]] = field(default_factory=list)
 
     @staticmethod
-    def create(command: EventCommand) -> 'Event':
+    def create(event_input: EventInput) -> 'Event':
         return Event(
-            name=command.name,
-            description=command.description,
-            date=command.date,
-            total_spot=command.total_spot,
-            partner_id=command.partner_id,
-            sections=command.sections
+            name=event_input.name,
+            description=event_input.description,
+            date=event_input.date,
+            total_spot=event_input.total_spot,
+            partner_id=event_input.partner_id,
+            sections=event_input.sections
         )

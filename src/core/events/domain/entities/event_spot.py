@@ -5,7 +5,7 @@ from src.core.common.domain.entities import Entity
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class EventSpotCommand:
+class EventSpotInput:
     location: str
     is_reserved: bool
     is_published: bool
@@ -18,9 +18,9 @@ class EventSpot(Entity):
     is_published: bool
 
     @staticmethod
-    def create(command: EventSpotCommand) -> 'EventSpot':
+    def create(input: EventSpotInput) -> 'EventSpot':
         return EventSpot(
-            location=command.location,
-            is_reserved=command.is_reserved,
-            is_published=command.is_published
+            location=input.location,
+            is_reserved=input.is_reserved,
+            is_published=input.is_published
         )

@@ -2,13 +2,13 @@ from dataclasses import asdict
 import unittest
 from unittest.mock import Mock, patch
 
-from src.core.events.domain.entities.event_section import EventSection, EventSectionCommand
+from src.core.events.domain.entities.event_section import EventSection, EventSectionInput
 
 
-class TestUnitEventSectionCommand(unittest.TestCase):
+class TestUnitEventSectionInput(unittest.TestCase):
         
-    def test_create_event_section_command_valid(self):
-        event_section_command = {
+    def test_create_event_section_input_valid(self):
+        event_section_input = {
             'name': 'Event Name',
             'description': 'Event Description',
             'total_spot': 100,
@@ -16,15 +16,15 @@ class TestUnitEventSectionCommand(unittest.TestCase):
             'spot': []
         }
 
-        event_section_command = EventSectionCommand(**event_section_command)
+        event_section_input = EventSectionInput(**event_section_input)
 
-        self.assertEqual(event_section_command.name, 'Event Name')
-        self.assertEqual(event_section_command.description, 'Event Description')
-        self.assertEqual(event_section_command.total_spot, 100)
-        self.assertEqual(event_section_command.price, 100.00)
+        self.assertEqual(event_section_input.name, 'Event Name')
+        self.assertEqual(event_section_input.description, 'Event Description')
+        self.assertEqual(event_section_input.total_spot, 100)
+        self.assertEqual(event_section_input.price, 100.00)
 
 
-class StubEventSectionCommand:
+class StubEventSectionInput:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
@@ -32,19 +32,19 @@ class StubEventSectionCommand:
 class TestUnitEventSection(unittest.TestCase):
 
     def test_create_event_section_valid(self):
-        data_command = {
+        data_input = {
             'name': 'test',
             'description': 'test',
             'total_spot': 100,
             'price': 100.0,
             'spot': []
         }
-        stub_command = StubEventSectionCommand(**data_command)
-        event_section = EventSection.create(stub_command)
+        stub_input = StubEventSectionInput(**data_input)
+        event_section = EventSection.create(stub_input)
         self.assertIsInstance(event_section, EventSection)
-        self.assertEqual(event_section.name, data_command['name'])
-        self.assertEqual(event_section.description, data_command['description'])
-        self.assertEqual(event_section.total_spot, data_command['total_spot'])
-        self.assertEqual(event_section.price, data_command['price'])
+        self.assertEqual(event_section.name, data_input['name'])
+        self.assertEqual(event_section.description, data_input['description'])
+        self.assertEqual(event_section.total_spot, data_input['total_spot'])
+        self.assertEqual(event_section.price, data_input['price'])
         self.assertEqual(event_section.is_published, False)
         self.assertEqual(event_section.total_spot_reserved, 0)
