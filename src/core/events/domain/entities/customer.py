@@ -4,24 +4,11 @@ from src.core.common.domain.aggregate_root import AggregateRoot
 from src.core.common.domain.value_objects import Cpf
 
 
-@dataclass
-class CustomerInput:
-    cpf: str
-    name: str
-
-
 @dataclass(frozen=True, slots=True, kw_only=True)
 class Customer(AggregateRoot):
     cpf: Cpf
     name: str
 
-    @staticmethod
-    def create(input: CustomerInput) -> 'Customer':
-        return Customer(
-            cpf=Cpf(input.cpf),
-            name=input.name
-        )
-    
     def change_name(self, name: str) -> None:
         if not name or not isinstance(name, str):
             raise ValueError("Nome Inválido")

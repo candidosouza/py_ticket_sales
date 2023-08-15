@@ -1,37 +1,35 @@
 import unittest
 
-from src.core.events.domain.entities.customer import Customer, CustomerInput
+from src.core.events.domain.entities.customer import Customer
+from src.core.common.domain.value_objects import Cpf
 
 
 class TestIntegrCustomer(unittest.TestCase):
     def test_create_customer(self):
-        input = {
+        data = {
             "name": "Jhon Doe",
-            "cpf": "070.300.380-10"
+            "cpf": Cpf("070.300.380-10")
         }
-        customer_input = CustomerInput(**input)
-        customer = Customer.create(customer_input)
+        customer = Customer(**data)
         self.assertEqual(customer.name, "Jhon Doe")
         self.assertEqual(customer.cpf.cpf, "070.300.380-10")
 
     def test_change_customer_name(self):
-        input = {
+        data = {
             "name": "Jhon Doe",
-            "cpf": "795.724.670-26"
+            "cpf": Cpf("795.724.670-26")
         }
-        customer_input = CustomerInput(**input)
-        customer = Customer.create(customer_input)
+        customer = Customer(**data)
         customer.change_name("Jhon Doe Souza")
         self.assertEqual(customer.name, "Jhon Doe Souza")
         self.assertEqual(customer.cpf.cpf, "795.724.670-26")
 
     def test_change_customer_name_with_invalid_name(self):
-        input = {
+        data = {
             "name": "Jhon Doe",
-            "cpf": "795.724.670-26"
+            "cpf": Cpf("795.724.670-26")
         }
-        customer_input = CustomerInput(**input)
-        customer = Customer.create(customer_input)
+        customer = Customer(**data)
 
         with self.assertRaises(ValueError) as context:
             customer.change_name("")

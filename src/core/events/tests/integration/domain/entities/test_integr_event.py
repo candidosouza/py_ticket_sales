@@ -1,31 +1,28 @@
 import unittest
 
-from src.core.events.domain.entities.event import EventInput, Event
-from src.core.events.domain.entities.event_section import EventSectionInput, EventSection
-from src.core.events.domain.entities.event_spot import EventSpot, EventSpotInput
+from src.core.events.domain.entities.event import Event
+from src.core.events.domain.entities.event_section import EventSection
+from src.core.events.domain.entities.event_spot import EventSpot
 
 
 class TestIntegrEvent(unittest.TestCase):
 
     def test_create_event_valid(self):
-        data_event_spot_input = {
+        data_spot = {
             'location': 'location',
             'is_reserved': False,
             'is_published': False
         }
-        event_spot_input = EventSpotInput(**data_event_spot_input)
-        event_spot = EventSpot.create(event_spot_input)
-        data_event_section_input = {
+        event_spot = EventSpot(**data_spot)
+        data_section = {
             'name': 'test',
             'description': 'test',
             'total_spot': 100,
             'price': 100.0,
             'spot': [event_spot]
         }
-        input = EventSectionInput(**data_event_section_input)
-        event_section = EventSection.create(input)
-
-        event_input = {
+        event_section = EventSection(**data_section)
+        data = {
                 'name': 'Event Name',
                 'description': 'Event Description',
                 'date': '2021-12-12',
@@ -33,20 +30,19 @@ class TestIntegrEvent(unittest.TestCase):
                 'partner_id': 'partner_id',
                 'sections': event_section
             }
-        input = EventInput(**event_input)
-        event = Event.create(input)
+        event = Event(**data)
         self.assertIsInstance(event, Event)
-        self.assertEqual(event.name, event_input['name'])
-        self.assertEqual(event.description, event_input['description'])
-        self.assertEqual(event.date, event_input['date'])
-        self.assertEqual(event.total_spot, event_input['total_spot'])
-        self.assertEqual(event.partner_id, event_input['partner_id'])
-        self.assertEqual(event.sections, event_input['sections'])
+        self.assertEqual(event.name, data['name'])
+        self.assertEqual(event.description, data['description'])
+        self.assertEqual(event.date, data['date'])
+        self.assertEqual(event.total_spot, data['total_spot'])
+        self.assertEqual(event.partner_id, data['partner_id'])
+        self.assertEqual(event.sections, data['sections'])
         self.assertEqual(event.is_published, False)
         self.assertEqual(event.total_spot_reserved, 0)
 
     def test_create_event_without_sections(self):
-        event_input = {
+        data = {
             'name': 'Event Name',
             'description': 'Event Description',
             'date': '2021-12-12',
@@ -54,14 +50,13 @@ class TestIntegrEvent(unittest.TestCase):
             'partner_id': 'partner_id',
             'sections': []
         }
-        input_data = EventInput(**event_input)
-        event = Event.create(input_data)
+        event = Event(**data)
         self.assertIsInstance(event, Event)
-        self.assertEqual(event.name, event_input['name'])
-        self.assertEqual(event.description, event_input['description'])
-        self.assertEqual(event.date, event_input['date'])
-        self.assertEqual(event.total_spot, event_input['total_spot'])
-        self.assertEqual(event.partner_id, event_input['partner_id'])
-        self.assertEqual(event.sections, event_input['sections'])
+        self.assertEqual(event.name, data['name'])
+        self.assertEqual(event.description, data['description'])
+        self.assertEqual(event.date, data['date'])
+        self.assertEqual(event.total_spot, data['total_spot'])
+        self.assertEqual(event.partner_id, data['partner_id'])
+        self.assertEqual(event.sections, data['sections'])
         self.assertEqual(event.is_published, False)
         self.assertEqual(event.total_spot_reserved, 0)
