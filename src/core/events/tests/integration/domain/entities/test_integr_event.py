@@ -6,12 +6,11 @@ from src.core.events.domain.entities.event_spot import EventSpot
 
 
 class TestIntegrEvent(unittest.TestCase):
-
     def test_create_event_valid(self):
         data_spot = {
             'location': 'location',
             'is_reserved': False,
-            'is_published': False
+            'is_published': False,
         }
         event_spot = EventSpot(**data_spot)
         data_section = {
@@ -19,17 +18,17 @@ class TestIntegrEvent(unittest.TestCase):
             'description': 'test',
             'total_spot': 100,
             'price': 100.0,
-            'spot': [event_spot]
+            'spot': [event_spot],
         }
         event_section = EventSection(**data_section)
         data = {
-                'name': 'Event Name',
-                'description': 'Event Description',
-                'date': '2021-12-12',
-                'total_spot': 100,
-                'partner_id': 'partner_id',
-                'sections': event_section
-            }
+            'name': 'Event Name',
+            'description': 'Event Description',
+            'date': '2021-12-12',
+            'total_spot': 100,
+            'partner_id': 'partner_id',
+            'sections': event_section,
+        }
         event = Event(**data)
         self.assertIsInstance(event, Event)
         self.assertEqual(event.name, data['name'])
@@ -48,7 +47,7 @@ class TestIntegrEvent(unittest.TestCase):
             'date': '2021-12-12',
             'total_spot': 100,
             'partner_id': 'partner_id',
-            'sections': []
+            'sections': [],
         }
         event = Event(**data)
         self.assertIsInstance(event, Event)
@@ -66,7 +65,7 @@ class TestIntegrEvent(unittest.TestCase):
             'name': 'test',
             'description': 'test',
             'total_spot': 100,
-            'price': 100.0
+            'price': 100.0,
         }
         event_section = EventSection(**data_section)
         data = {
@@ -77,7 +76,7 @@ class TestIntegrEvent(unittest.TestCase):
         }
         event = Event(**data)
         event.add_section(event_section)
-        
+
         self.assertEqual(len(event.sections), 1)
         self.assertEqual(event.total_spot, 100)
         self.assertEqual(len(event.sections[0].spot), 100)

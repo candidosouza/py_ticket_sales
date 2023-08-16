@@ -3,27 +3,34 @@ import uuid
 from abc import ABC
 from dataclasses import dataclass, field, fields
 
-from src.core.common.domain.exceptions import InvalidUuidException, InvalidCpfException
+from src.core.common.domain.exceptions import (
+    InvalidCpfException,
+    InvalidUuidException,
+)
 
 
 @dataclass(frozen=True, slots=True)
 class ValueObject(ABC):
-
     def __str__(self):
         fields_name = [field.name for field in fields(self)]
-        return str(getattr(self, fields_name[0])) \
-            if len(fields_name) == 1 \
-            else json.dumps({field_name: getattr(self, field_name) for field_name in fields_name})
+        return (
+            str(getattr(self, fields_name[0]))
+            if len(fields_name) == 1
+            else json.dumps(
+                {
+                    field_name: getattr(self, field_name)
+                    for field_name in fields_name
+                }
+            )
+        )
 
 
 @dataclass(frozen=True, slots=True)
 class IdUUID(ValueObject):
-    id: str = field(
-        default_factory=lambda: str(uuid.uuid4())
-    )
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
     def __str__(self):
-        return f"{self.id}"
+        return f'{self.id}'
 
     def __post_init__(self):
         id_value = str(self.id) if isinstance(self.id, uuid.UUID) else self.id
@@ -46,18 +53,20 @@ class Cpf(ValueObject):
 
     def __validate(self):
         if not isinstance(self.cpf, str):
-            raise InvalidCpfException("CPF deve ser uma string")
+            raise InvalidCpfException('CPF deve ser uma string')
 
         cpf_digits = ''.join(filter(str.isdigit, self.cpf))
 
         if len(cpf_digits) != 11:
-            raise InvalidCpfException("CPF deve ter 11 dígitos")
+            raise InvalidCpfException('CPF deve ter 11 dígitos')
 
         if cpf_digits == cpf_digits[0] * 11:
-            raise InvalidCpfException("CPF inválido")
+            raise InvalidCpfException('CPF inválido')
 
-        if not self.__validate_first_digit(cpf_digits) or not self.__validate_second_digit(cpf_digits):
-            raise InvalidCpfException("CPF inválido")
+        if not self.__validate_first_digit(
+            cpf_digits
+        ) or not self.__validate_second_digit(cpf_digits):
+            raise InvalidCpfException('CPF inválido')
 
         return True
 

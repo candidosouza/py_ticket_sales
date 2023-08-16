@@ -1,5 +1,5 @@
 from abc import ABC
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from src.core.common.domain.value_objects import IdUUID
@@ -7,7 +7,7 @@ from src.core.common.domain.value_objects import IdUUID
 
 @dataclass(frozen=True, slots=True)
 class Entity(ABC):
-    id_uuid: IdUUID = field(default_factory=lambda: IdUUID()) 
+    id_uuid: IdUUID = field(default_factory=lambda: IdUUID())
 
     @property
     def id(self):

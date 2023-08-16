@@ -8,7 +8,7 @@ class TestIntegrEventSpot(unittest.TestCase):
         data = {
             'location': 'location',
             'is_reserved': False,
-            'is_published': False
+            'is_published': False,
         }
         event_spot = EventSpot(**data)
         self.assertEqual(event_spot.location, 'location')

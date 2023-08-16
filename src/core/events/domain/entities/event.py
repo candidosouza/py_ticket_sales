@@ -15,8 +15,8 @@ class Event(AggregateRoot):
     total_spot_reserved: Optional[int] = 0
     partner_id: str
     sections: Optional[List[EventSection]] = field(default_factory=list)
-    
+
     def add_section(self, section: EventSection) -> None:
         self.sections.append(section)
-        total_spot = (self.total_spot + section.total_spot)
+        total_spot = self.total_spot + section.total_spot
         self._set('total_spot', total_spot)

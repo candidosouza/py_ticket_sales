@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from src.core.common.domain.aggregate_root import AggregateRoot
 
 

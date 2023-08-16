@@ -5,7 +5,6 @@ from src.core.events.domain.entities.event import Event
 
 
 class TestUnitEvent(unittest.TestCase):
-
     def test_create_event_valid(self):
         event_sections = Mock()
         event_sections.name = 'Event Name'
@@ -21,7 +20,7 @@ class TestUnitEvent(unittest.TestCase):
             'date': '2021-12-12',
             'total_spot': 100,
             'partner_id': 'partner_id',
-            'sections': [event_sections]
+            'sections': [event_sections],
         }
         event = Event(**data)
 

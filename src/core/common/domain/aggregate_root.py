@@ -4,7 +4,6 @@ from src.core.common.domain.entities import Entity
 
 
 class AggregateRoot(Entity, ABC):
-    
     def add_event(self, event):
         self.events.append(event)
 

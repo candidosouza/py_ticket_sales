@@ -4,14 +4,13 @@ from src.core.events.domain.entities.event_section import EventSection
 
 
 class TestUnitEventSection(unittest.TestCase):
-
     def test_create_event_section_valid(self):
         data = {
             'name': 'test',
             'description': 'test',
             'total_spot': 100,
             'price': 100.0,
-            'spot': []
+            'spot': [],
         }
         event_section = EventSection(**data)
         self.assertIsInstance(event_section, EventSection)

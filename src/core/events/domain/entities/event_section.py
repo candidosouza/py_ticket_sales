@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional, List
+from typing import List, Optional
 
 from src.core.common.domain.entities import Entity
 from src.core.events.domain.entities.event_spot import EventSpot
@@ -20,4 +20,4 @@ class EventSection(Entity):
 
     def _init_spot(self):
         for _ in range(self.total_spot):
-            self.spot.append(EventSpot()) 
+            self.spot.append(EventSpot())
