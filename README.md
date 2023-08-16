@@ -30,12 +30,12 @@ O projeto é fundamentado no **Domain-Driven Design (DDD)**, garantindo uma clar
 
 - **Python**: Versão 3.11.
 - **Frameworks e Bibliotecas**:
-  - **pytest**: Utilizado para testes unitários e de integração.
-  - **pytest-cov**: Para avaliação da cobertura dos testes.
-  - **taskipy**: Facilita a automatização de tarefas.
-  - **blue**: Ferramenta de formatação e linting.
-  - **ruff**: Auxilia no desenvolvimento orientado a DDD.
-  - **isort**: Organiza e ordena importações.
+  - pytest
+  - pytest-cov
+  - taskipy
+  - blue
+  - ruff
+  - isort
 
 ## Manutenção e Suporte
 Este projeto consiste apenas em estudo e NÃO possui manutenção e suporte.
