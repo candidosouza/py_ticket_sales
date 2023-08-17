@@ -10,4 +10,29 @@ services:
         - .:/home/python/app
       ports:
         - 8000:8000
-    
+
+    mysql:
+      image: mysql:8.0.30-debian
+      container_name: mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: events
+        MYSQL_USER: admin
+        MYSQL_PASSWORD: admin
+      volumes:
+        - ./.docker/mysql/data:/var/lib/mysql
+      ports:
+        - 3306:3306 
+      command: --default-authentication-plugin=mysql_native_password
+
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: phpmyadmin
+      environment:
+        PMA_HOST: mysql
+        PMA_PORT: 3306
+        MYSQL_ROOT_PASSWORD: root
+      ports:
+        - 8080:80
+      depends_on:
+        - mysql
