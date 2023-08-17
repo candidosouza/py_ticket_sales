@@ -13,6 +13,3 @@ class Customer(AggregateRoot):
         if not name or not isinstance(name, str):
             raise ValueError('Nome Inválido')
         self._set('name', name)
-
-    def to_dict(self):
-        return {'id': self.id, 'cpf': self.cpf.cpf, 'name': self.name}
