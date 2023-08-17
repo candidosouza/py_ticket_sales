@@ -10,6 +10,10 @@ packages = [{include = "src"}]
 python = "^3.11"
 pytest = "^7.4.0"
 sqlalchemy = "^2.0.20"
+python-dotenv = "^1.0.0"
+alembic = "^1.11.3"
+pydantic-settings = "^2.0.3"
+mysql-connector-python = "^8.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
