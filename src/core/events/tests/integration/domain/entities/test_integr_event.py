@@ -81,3 +81,77 @@ class TestIntegrEvent(unittest.TestCase):
         self.assertEqual(event.total_spot, 100)
         self.assertEqual(len(event.sections[0].spot), 100)
         self.assertEqual(len(event_section.spot), 100)
+
+    def test_publish_event(self):
+        data_spot_01 = {
+            'location': 'location',
+            'is_reserved': False,
+            'is_published': False,
+        }
+        event_spot_01 = EventSpot(**data_spot_01)
+        data_section_01 = {
+            'name': 'section 01',
+            'description': 'test',
+            'total_spot': 100,
+            'price': 100.0,
+            'spot': [event_spot_01],
+        }
+        event_section_01 = EventSection(**data_section_01)
+        data_spot_02 = {
+            'location': 'location',
+            'is_reserved': False,
+            'is_published': False,
+        }
+        event_spot_02 = EventSpot(**data_spot_02)
+        data_section_02 = {
+            'name': 'section 01',
+            'description': 'test',
+            'total_spot': 100,
+            'price': 100.0,
+            'spot': [event_spot_02],
+        }
+        event_section_02 = EventSection(**data_section_02)
+        data = {
+            'name': 'Event Name',
+            'description': 'Event Description',
+            'date': '2021-12-12',
+            'total_spot': 100,
+            'partner_id': 'partner_id',
+            'sections': [event_section_01, event_section_02],
+        }
+        event = Event(**data)
+        event.publish_all()
+        self.assertEqual(event.is_published, True)
+        self.assertEqual(event_section_01.is_published, True)
+        self.assertEqual(event_section_02.is_published, True)
+        self.assertEqual(event_spot_01.is_published, True)
+        self.assertEqual(event_spot_02.is_published, True)
+
+    def test_un_publish_event(self):
+        data_spot = {
+            'location': 'location',
+            'is_reserved': False,
+            'is_published': True,
+        }
+        event_spot = EventSpot(**data_spot)
+        data_section = {
+            'name': 'test',
+            'description': 'test',
+            'total_spot': 100,
+            'price': 100.0,
+            'spot': [event_spot],
+        }
+        event_section = EventSection(**data_section)
+        data = {
+            'name': 'Event Name',
+            'description': 'Event Description',
+            'date': '2021-12-12',
+            'total_spot': 100,
+            'partner_id': 'partner_id',
+            'sections': [event_section],
+        }
+        event = Event(**data)
+        event.un_publish_all()
+        self.assertEqual(event.is_published, False)
+        self.assertEqual(event_section.is_published, False)
+        self.assertEqual(event_spot.is_published, False)
