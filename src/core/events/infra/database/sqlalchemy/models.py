@@ -8,32 +8,32 @@ class Base(DeclarativeBase):
     pass
 
 
-class GUID(TypeDecorator):
-    """Platform-independent GUID type.
+# class GUID(TypeDecorator):
+#     """Platform-independent GUID type.
 
-    Uses PostgreSQL's UUID type, otherwise uses
-    String(36), storing as stringified hex representation.
-    """
+#     Uses PostgreSQL's UUID type, otherwise uses
+#     String(36), storing as stringified hex representation.
+#     """
 
-    impl = String
+#     impl = String
 
-    def process_bind_param(self, value, dialect):
-        if value is None:
-            return value
-        elif dialect.name == 'postgresql':
-            return str(value)
-        else:
-            if not isinstance(value, uuid.UUID):
-                return '%.32x' % uuid.UUID(value).int
-            else:
-                # hexstring
-                return '%.32x' % value.int
+#     def process_bind_param(self, value, dialect):
+#         if value is None:
+#             return value
+#         elif dialect.name == 'postgresql':
+#             return str(value)
+#         else:
+#             if not isinstance(value, uuid.UUID):
+#                 return '%.32x' % uuid.UUID(value).int
+#             else:
+#                 # hexstring
+#                 return '%.32x' % value.int
 
-    def process_result_value(self, value, dialect):
-        if value is None:
-            return value
-        else:
-            return uuid.UUID(value)
+#     def process_result_value(self, value, dialect):
+#         if value is None:
+#             return value
+#         else:
+#             return uuid.UUID(value)
 
 
 class Partner(Base):
