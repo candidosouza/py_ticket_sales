@@ -17,6 +17,14 @@
 	// The optional 'workspaceFolder' property is the path VS Code should open by default when
 	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
 	"workspaceFolder": "/home/python/app",
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {},
+		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+			"plugins": "git git-flow F-Sy-H zsh-autosuggestions zsh-completions",
+			"omzPlugins": "https://github.com/z-shell/F-Sy-H https://github.com/zsh-users/zsh-autosuggestions https://github.com/zsh-users/zsh-completions"
+		},
+		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
+	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -34,27 +42,30 @@
 	// "postCreateCommand": "cat /etc/os-release",
 
 	// Configure tool-specific properties.
-	// "customizations": {},
-	"extensions": [
-		"ms-python.python",
-		"sourcery.sourcery",
-		"sonarsource.sonarlint-vscode",
-		"github.copilot",
-		"visualstudioexptteam.vscodeintellicode",
-		"eamodio.gitlens",
-		"vivaxy.vscode-conventional-commits",
-		"ms-azuretools.vscode-docker",
-		"be5invis.toml"
-	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"sourcery.sourcery",
+				"sonarsource.sonarlint-vscode",
+				"github.copilot",
+				"visualstudioexptteam.vscodeintellicode",
+				"eamodio.gitlens",
+				"vivaxy.vscode-conventional-commits",
+				"ms-azuretools.vscode-docker",
+				"be5invis.toml"
+				// "humao.rest-client"
+			],
+			"settings": {
+				"python.pythonPath": "/home/python/app/.venv/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": true,
+				"python.formatting.autopep8Path": "/home/python/.venv/bin/autopep8",
+			}
+		}
+	},
 
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-	"remoteUser": "python",
-	"settings": {
-		"terminal.integrated.defaultProfile.linux": "bash",
-		"python.pythonPath": "/home/python/app/.venv/bin/python",
-        "python.linting.enabled": true,
-		"python.linting.enabled": true,
-        "python.linting.pylintEnabled": true,
-        "python.formatting.autopep8Path": "/home/python/.venv/bin/autopep8",
-	}
+	"remoteUser": "python"
 }
