@@ -1,17 +1,16 @@
-from abc import ABC
 import abc
+from abc import ABC
 from dataclasses import dataclass, field
 from typing import Generic, List, TypeVar
-from src.core.common.domain.aggregate_root import AggregateRoot
-from src.core.common.domain.value_objects import IdUUID
-from src.core.common.domain.exceptions import NotFoundException
 
+from src.core.common.domain.aggregate_root import AggregateRoot
+from src.core.common.domain.exceptions import NotFoundException
+from src.core.common.domain.value_objects import IdUUID
 
 ET = TypeVar('ET', bound=AggregateRoot)
 
 
 class RepositoryInterface(Generic[ET], ABC):
-
     @abc.abstractmethod
     def add(self, entity: ET) -> None:
         raise NotImplementedError()
@@ -27,7 +26,6 @@ class RepositoryInterface(Generic[ET], ABC):
     @abc.abstractmethod
     def delete(self, entity_id: str | IdUUID) -> None:
         raise NotImplementedError()
-
 
 
 # repository in memory

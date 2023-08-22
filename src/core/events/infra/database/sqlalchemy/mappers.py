@@ -1,4 +1,7 @@
-from src.core.common.domain.exceptions import EntityValidationException, LoadEntityException
+from src.core.common.domain.exceptions import (
+    EntityValidationException,
+    LoadEntityException,
+)
 from src.core.events.domain.entities.partner import Partner
 
 from .models import PartnerModel
