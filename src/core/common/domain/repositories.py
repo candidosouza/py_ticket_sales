@@ -16,9 +16,6 @@ class RepositoryInterface(Generic[ET], ABC):
     def add(self, entity: ET) -> None:
         raise NotImplementedError()
 
-    # def bulk_insert(self, entities: List[ET]) -> None:
-    #     raise NotImplementedError()
-
     @abc.abstractmethod
     def find_by_id(self, entity_id: str | IdUUID) -> ET:
         raise NotImplementedError()
@@ -26,10 +23,6 @@ class RepositoryInterface(Generic[ET], ABC):
     @abc.abstractmethod
     def find_all(self) -> List[ET]:
         raise NotImplementedError()
-
-    # @abc.abstractmethod
-    # def update(self, entity: ET) -> None:
-    #     raise NotImplementedError()
 
     @abc.abstractmethod
     def delete(self, entity_id: str | IdUUID) -> None:
@@ -46,20 +39,12 @@ class InMemoryRepository(RepositoryInterface[ET], ABC):
     def add(self, entity: ET) -> None:
         self.items.append(entity)
 
-    # def bulk_insert(self, entities: List[ET]) -> None:
-    #     self.items = entities + self.items
-
     def find_by_id(self, entity_id: str | IdUUID) -> ET:
         id_str = str(entity_id)
         return self._get(id_str)
 
     def find_all(self) -> List[ET]:
         return self.items
-
-    # def update(self, entity: ET) -> None:
-    #     entity_found = self._get(entity.id)
-    #     index = self.items.index(entity_found)
-    #     self.items[index] = entity
 
     def delete(self, entity_id: str | IdUUID) -> None:
         id_str = str(entity_id)
