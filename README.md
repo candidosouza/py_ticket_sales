@@ -30,6 +30,9 @@ O projeto é fundamentado no **Domain-Driven Design (DDD)**, garantindo uma clar
 
 - **Python**: Versão 3.11.
 - **Frameworks e Bibliotecas**:
+  - sqlalchemy
+  - alembic
+  - pydantic-settings
   - pytest
   - pytest-cov
   - taskipy
