@@ -36,7 +36,7 @@ class Base(DeclarativeBase):
 #             return uuid.UUID(value)
 
 
-class Partner(Base):
+class PartnerModel(Base):
     __tablename__ = 'partner'
 
     id: Mapped[uuid.UUID] = mapped_column(
