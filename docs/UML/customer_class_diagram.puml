@@ -1,0 +1,49 @@
+@startuml
+
+!define RECTANGLE class
+
+RECTANGLE Entity {
++ id_uuid : IdUUID
++ id() : str
++ _set(name: str, value: Any) : self
++ to_dict() : dict
+}
+
+RECTANGLE AggregateRoot {
++ events : List
++ add_event(event) : void
++ clear_events() : void
+}
+
+RECTANGLE Customer {
++ cpf : Cpf
++ name : str
++ change_name(name: str) : void
+}
+
+RECTANGLE CustomerModel {
++ id : uuid.UUID
++ cpf : str
++ name : str
+}
+
+RECTANGLE CustomerMapper {
++ to_entity(customer_orm: CustomerModel) : Customer
++ to_model(customer: Customer) : CustomerModel
+}
+
+RECTANGLE CustomerSqlAlchemyRepository {
+  + add(customer: Customer) : None
+  + find_by_id(entity_id: str | IdUUID) : Customer
+  + find_all() : List[Customer]
+  + delete(entity_id: str | IdUUID) : None
+}
+
+Entity <|-- AggregateRoot
+AggregateRoot <|-- Customer
+Customer <-- CustomerMapper : << maps to >>
+CustomerModel <-- CustomerMapper : << maps to >>
+CustomerSqlAlchemyRepository --> CustomerMapper : << uses >>
+CustomerSqlAlchemyRepository --> CustomerModel : << uses >>
+
+@enduml

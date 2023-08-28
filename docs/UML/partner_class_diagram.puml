@@ -1,0 +1,54 @@
+@startuml
+
+!define ENTITY_ABSTRACT class
+!define AGGREGATE_ROOT class
+
+package "Core Domain" {
+    ENTITY_ABSTRACT "Entity" {
+        + id_uuid: IdUUID
+        + id(): str
+        + to_dict(): dict
+    }
+    
+    ENTITY_ABSTRACT "AggregateRoot" {
+        + events: List
+        + add_event(event: Any): void
+        + clear_events(): void
+    }
+    
+    AGGREGATE_ROOT "Partner" {
+        + name: str
+        + init_event(input: dict): Event
+    }
+}
+
+package "Infrastructure" {
+    class "PartnerModel" {
+        + id: uuid.UUID
+        + name: str
+    }
+    
+    class "PartnerMapper" {
+        + to_entity(partner_orm: PartnerModel): Partner
+        + to_model(partner: Partner): PartnerModel
+    }
+    
+    class "PartinerSqlAlchemyRepository" {
+        + session: Session
+        + add(partiner: Partner): void
+        + find_by_id(entity_id: str | IdUUID): Partner
+        + find_all(): List[Partner]
+        + delete(entity_id: str | IdUUID): void
+    }
+}
+
+Entity <|-- AggregateRoot
+AggregateRoot <|-- Partner
+PartnerModel ..|> Base
+PartnerMapper --> PartnerModel
+PartnerMapper --> Partner
+PartinerSqlAlchemyRepository --> PartnerMapper
+PartinerSqlAlchemyRepository --> PartnerModel
+PartinerSqlAlchemyRepository --> Session
+
+@enduml
