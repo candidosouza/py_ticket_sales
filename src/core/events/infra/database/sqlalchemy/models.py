@@ -46,3 +46,16 @@ class PartnerModel(Base):
 
     def __repr__(self) -> str:
         return f'Partner(id={self.id!r}, name={self.name!r})'
+    
+
+class CustomerModel(Base):
+    __tablename__ = 'customer'
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        String(36), primary_key=True, unique=True, default=str(uuid.uuid4())
+    )
+    cpf: Mapped[str] = mapped_column(String(11))
+    name: Mapped[str] = mapped_column(String(255))
+
+    def __repr__(self) -> str:
+        return f'Customer(id={self.id!r}, name={self.name!r})'

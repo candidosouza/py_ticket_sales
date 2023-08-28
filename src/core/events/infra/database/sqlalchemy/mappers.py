@@ -3,8 +3,12 @@ from src.core.common.domain.exceptions import (
     LoadEntityException,
 )
 from src.core.events.domain.entities.partner import Partner
+from src.core.events.domain.entities.customer import Customer
 
-from .models import PartnerModel
+from .models import (
+    PartnerModel, 
+    CustomerModel
+)
 
 
 class PartnerMapper:
@@ -25,3 +29,26 @@ class PartnerMapper:
             id=partner.id,
             name=partner.name,
         )
+    
+
+class CustomerMapper:
+    @staticmethod
+    def to_entity(customer_orm: CustomerModel) -> Customer:
+        try:
+            customer = Customer(
+                id_uuid=customer_orm.id,
+                cpf=customer_orm.cpf,
+                name=customer_orm.name,
+            )
+            return {**customer.to_dict(), 'id': str(customer.id_uuid)}
+        except EntityValidationException as exception:
+            raise LoadEntityException() from exception
+        
+    @staticmethod
+    def to_model(customer: Customer) -> CustomerModel:
+        return CustomerModel(
+            id=customer.id,
+            cpf=customer.cpf,
+            name=customer.name,
+        )
+
