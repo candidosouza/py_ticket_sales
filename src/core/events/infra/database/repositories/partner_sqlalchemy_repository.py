@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from dataclasses import dataclass, field
 from typing import List
 
@@ -7,7 +6,7 @@ from sqlalchemy.orm import Session
 from src.core.common.domain.repositories import ET
 from src.core.common.domain.value_objects import IdUUID
 from src.core.events.domain.entities.partner import Partner
-from src.core.events.domain.repositories.partner_repository_interface import (
+from src.core.events.domain.repositories.repositories_interface import (
     IPartinerRepository,
 )
 from src.core.events.infra.database.sqlalchemy.config import SQLAlchemyConfig
