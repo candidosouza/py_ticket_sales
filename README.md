@@ -45,7 +45,7 @@ O projeto é fundamentado no **Domain-Driven Design (DDD)**, garantindo uma clar
   - prometheus-client
 
 
-## Bibliotecas e Ferramentas
+## Observabilidade
 - **Métricas**:
   - **Prometheus**: Biblioteca para coleta de métricas.
   - **Grafana**: Ferramenta para visualização de métricas.
@@ -61,3 +61,4 @@ Este projeto consiste apenas em estudo e NÃO aceita contribuições.
 
 ## Licença
 Este projeto consiste apenas em estudo e NÃO possui licença.
+
