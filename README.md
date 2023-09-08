@@ -30,15 +30,28 @@ O projeto é fundamentado no **Domain-Driven Design (DDD)**, garantindo uma clar
 
 - **Python**: Versão 3.11.
 - **Frameworks e Bibliotecas**:
+  - fastapi
   - sqlalchemy
   - alembic
   - pydantic-settings
   - pytest
   - pytest-cov
+  - python-json-logger
   - taskipy
   - blue
   - ruff
   - isort
+- **Observabilidade**:
+  - prometheus-client
+
+
+## Bibliotecas e Ferramentas
+- **Métricas**:
+  - **Prometheus**: Biblioteca para coleta de métricas.
+  - **Grafana**: Ferramenta para visualização de métricas.
+- **Tracing**:
+- **Logs**:
+
 
 ## Manutenção e Suporte
 Este projeto consiste apenas em estudo e NÃO possui manutenção e suporte.

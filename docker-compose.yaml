@@ -1,38 +1,89 @@
 version: '3'
 
 services:
-    app:
-      build: .
-      container_name: app
-      command: ./.docker/entrypoint.sh
-      tty: true
-      volumes:
-        - .:/home/python/app
-      ports:
-        - 8000:8000
+  app:
+    build: .
+    container_name: app
+    command: ./.docker/entrypoint.sh
+    tty: true
+    volumes:
+      - .:/home/python/app
+      - ./logs:/logs
+    ports:
+      - 8000:8000
+    depends_on:
+      - mysql
 
-    mysql:
-      image: mysql:8.0.30-debian
-      container_name: mysql
-      environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: events
-        MYSQL_USER: admin
-        MYSQL_PASSWORD: admin
-      volumes:
-        - ./.docker/mysql/data:/var/lib/mysql
-      ports:
-        - 3306:3306 
-      command: --default-authentication-plugin=mysql_native_password
+  mysql:
+    image: mysql:8.0.30-debian
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: events
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - ./.docker/mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
 
-    phpmyadmin:
-      image: phpmyadmin/phpmyadmin
-      container_name: phpmyadmin
-      environment:
-        PMA_HOST: mysql
-        PMA_PORT: 3306
-        MYSQL_ROOT_PASSWORD: root
-      ports:
-        - 8080:80
-      depends_on:
-        - mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 8080:80
+    depends_on:
+      - mysql
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    user: "$UID:$GID"
+    volumes:
+      - ./.docker/grafana/data:/var/lib/grafana
+      - ./.docker/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      # - ./.docker/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+    restart: unless-stopped
+    environment:
+      - TERM=linux
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-polystat-panel
+    ports:
+      - 3000:3000
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped
+    user: "$UID:$GID"
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.enable-lifecycle
+    volumes:
+      - ./.docker/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml:ro
+      - ./.docker/prometheus/data:/prometheus
+
+  loki:
+    image: grafana/loki
+    container_name: loki
+    ports:
+      - "3100:3100"
+
+  promtail:
+    image: grafana/promtail
+    container_name: promtail
+    volumes:
+      - ./logs:/var/logs
+      - ./.docker/promtail/config.yml:/etc/promtail/config.yml
+    depends_on:
+      - loki
+    command: -config.file=/etc/promtail/config.yml

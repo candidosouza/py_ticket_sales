@@ -7,6 +7,8 @@ ENV PYTHONUNBUFFERED 1
 ENV POETRY_VIRTUALENVS_CREATE=true
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true
 ENV POETRY_NO_INTERACTION=1
+ENV UID=1000
+ENV GID=1000
 
 RUN apt update && apt install -y --no-install-recommends curl wget
 RUN  python -m pip install --upgrade pip

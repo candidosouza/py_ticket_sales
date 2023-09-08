@@ -53,7 +53,8 @@
 				"eamodio.gitlens",
 				"vivaxy.vscode-conventional-commits",
 				"ms-azuretools.vscode-docker",
-				"be5invis.toml"
+				"be5invis.toml",
+				"redhat.vscode-yaml"
 				// "humao.rest-client"
 			],
 			"settings": {
